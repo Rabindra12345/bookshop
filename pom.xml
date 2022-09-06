@@ -52,11 +52,11 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/be.nille.jwt/jwt-components -->
-<dependency>
+<!-- <dependency>
     <groupId>be.nille.jwt</groupId>
     <artifactId>jwt-components</artifactId>
     <version>1.0.0</version>
-</dependency>
+</dependency> -->
 		
 	</dependencies>
 
