@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 6.09.2022
  */
 @Configuration
+//@EnableWebMvc
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
@@ -40,6 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+    
+//    @Override
+//    public void configure(WebSecurity web)  {
+//        web.ignoring().antMatchers("/v3/api-docs",
+//                "/swagger-ui.html",
+//                "/swagger-ui/**");
+//    }
 
     @Override
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -54,12 +64,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        
+        
 
         http.authorizeRequests()
                 .antMatchers("/api/authentication/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/book").permitAll()
+//                .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
                 .antMatchers("/api/book/**").hasRole(Role.ADMIN.name())
                 .antMatchers("/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
+                .antMatchers("/**").permitAll()
+                
                 .anyRequest().authenticated();
 
         //jwt filter
