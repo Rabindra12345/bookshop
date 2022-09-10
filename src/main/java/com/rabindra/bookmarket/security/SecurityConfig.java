@@ -140,116 +140,85 @@ public class SecurityConfig { // extends WebSecurityConfigurerAdapter {
           }
       };
   }
+  
+  //BELOW IS OLD SCHOOLD METHOD IF YOU WANT TO EXTEND..OLD SCHOOL METHOD STARTED ........... 
+//  @Configuration
+//  @EnableWebSecurity
+//  public class SecurityConfig extends WebSecurityConfigurerAdapter
+//  {
+//      @Value("${authentication.internal-api-key}")
+//      private String internalApiKey;
+//
+//      @Autowired
+//      private CustomUserDetailsService userDetailsService;
+//
+//      @Override
+//      protected void configure(AuthenticationManagerBuilder auth) throws Exception
+//      {
+//          auth.userDetailsService(userDetailsService)
+//                  .passwordEncoder(passwordEncoder());
+//      }
+//
+//      @Override
+//      @Bean(BeanIds.AUTHENTICATION_MANAGER)
+//      public AuthenticationManager authenticationManagerBean() throws Exception
+//      {
+//          return super.authenticationManagerBean();
+//      }
+//
+//      @Override
+//      protected void configure(HttpSecurity http) throws Exception
+//      {
+//          http.cors();
+//          http.csrf().disable();
+//          http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//          http.authorizeRequests()
+//                  .antMatchers("/api/authentication/**").permitAll()
+//                  .antMatchers(HttpMethod.GET, "/api/book").permitAll()
+//                  .antMatchers("/api/book/**").hasRole(Role.ADMIN.name())
+//                  .antMatchers("/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
+//                  .anyRequest().authenticated();
+//
+//          //jwt filter
+//          //internal > jwt > authentication
+//          http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                  .addFilterBefore(internalApiAuthenticationFilter(), JwtAuthorizationFilter.class);
+//      }
+//
+//      @Bean
+//      public InternalApiAuthenticationFilter internalApiAuthenticationFilter()
+//      {
+//          return new InternalApiAuthenticationFilter(internalApiKey);
+//      }
+//
+//      @Bean
+//      public JwtAuthorizationFilter jwtAuthorizationFilter()
+//      {
+//          return new JwtAuthorizationFilter();
+//      }
+//
+//      @Bean
+//      public PasswordEncoder passwordEncoder()
+//      {
+//          return new BCryptPasswordEncoder();
+//      }
+//
+//      @Bean
+//      public WebMvcConfigurer corsConfigurer()
+//      {
+//          return new WebMvcConfigurer()
+//          {
+//              @Override
+//              public void addCorsMappings(CorsRegistry registry)
+//              {
+//                  registry.addMapping("/**")
+//                          .allowedOrigins("*")
+//                          .allowedMethods("*");
+//              }
+//          };
+//      }
+//  }
+  
+  //OLD SCHOOL METHOD ADDED COMPLETE .......................COMPLETE..............
 }
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig 
-////extends WebSecurityConfigurerAdapter
-//{
-//    @Value("${authentication.internal-api-key}")
-//    private String internalApiKey;
-//
-////    @Autowired
-////    private CustomUserDetailsService userDetailsService;
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return new CustomUserDetailsService();
-//    }
-//    
-//    
-////    @Autowired
-////    private AuthEntryPointJwt unauthorizedHandler;
-//    @Bean
-//    public AuthTokenFilter authenticationJwtTokenFilter() {
-//      return new AuthTokenFilter();
-//    }
-//
-////    @Override
-////    protected void configure(AuthenticationManagerBuilder auth) throws Exception
-////    {
-////        auth.userDetailsService(userDetailsService)
-////                .passwordEncoder(passwordEncoder());
-////    }
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//         
-//        authProvider.setUserDetailsService(userDetailsService());
-//        authProvider.setPasswordEncoder(passwordEncoder());
-//     
-//        return authProvider;
-//    }
-//    
-////    @Bean
-////    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception { 
-////        return authenticationConfiguration.getAuthenticationManager();
-////    }
-//
-////    @Override
-////    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-////    public AuthenticationManager authenticationManagerBean() throws Exception
-////    {
-////        return super.authenticationManagerBean();
-////    }
-//    
-////    @Bean
-//  @Bean(BeanIds.AUTHENTICATION_MANAGER)
-//  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
-//      return authConfiguration.getAuthenticationManager();
-//    }
-//
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception 
-//	{
-//    	 http.cors();
-//         http.csrf().disable();
-//         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//         http.authorizeRequests()
-//                 .antMatchers("/api/authentication/**").permitAll()
-//                 .antMatchers(HttpMethod.GET, "/api/book").permitAll()
-//                 .antMatchers("/api/book/**").hasRole(Role.ADMIN.name())
-//                 .antMatchers("/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
-//                 .anyRequest().authenticated();
-//
-////         http.authenticationProvider(authenticationProvider());
-//         //jwt filter
-//         //internal > jwt > authentication
-//         http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                 .addFilterBefore(internalApiAuthenticationFilter(), JwtAuthorizationFilter.class);
-//		
-//		return http.build();
-//	}
-//
-//    @Bean
-//    public InternalApiAuthenticationFilter internalApiAuthenticationFilter()
-//    {
-//        return new InternalApiAuthenticationFilter(internalApiKey);
-//    }
-//
-//    @Bean
-//    public JwtAuthorizationFilter jwtAuthorizationFilter()
-//    {
-//        return new JwtAuthorizationFilter();
-//    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder()
-//    {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer()
-//    {
-//        return new WebMvcConfigurer()
-//        {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry)
-//            {
-//                registry.addMapping("/**")
-//                        .allowedOrigins("*")
-//                        .allowedMethods("*");
-//            }
-//        };
-//    }
-//}
