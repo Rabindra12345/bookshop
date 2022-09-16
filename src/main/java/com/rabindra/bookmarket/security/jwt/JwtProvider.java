@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-//import io.jsonwebtoken.*;
+import io.jsonwebtoken.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -35,19 +35,24 @@ public class JwtProvider implements IJwtProvider
     @Value("${app.jwt.expiration-in-ms}")
     private Long JWT_EXPIRATION_IN_MS;
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public String generateToken(UserPrincipal auth)
     {
         String authorities = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+        
+//        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        
+        
 
         return Jwts.builder()
                 .setSubject(auth.getUsername())
                 .claim("roles", authorities)
                 .claim("userId", auth.getId())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_IN_MS))
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET) 
                 .compact();
     }
 
