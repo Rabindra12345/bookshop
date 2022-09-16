@@ -52,11 +52,11 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/be.nille.jwt/jwt-components -->
-<!-- <dependency>
+ <dependency>
     <groupId>be.nille.jwt</groupId>
     <artifactId>jwt-components</artifactId>
     <version>1.0.0</version>
-</dependency> -->
+</dependency> 
 
  <!-- springfox swagger -->
         <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
@@ -72,6 +72,14 @@
     		<artifactId>springfox-swagger-ui</artifactId>
     		<version>2.9.2</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.11.2</version>
+</dependency>
+		
 		
 	</dependencies>
 
