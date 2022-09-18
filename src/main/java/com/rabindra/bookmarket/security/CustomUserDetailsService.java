@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,7 +31,12 @@ public class CustomUserDetailsService implements UserDetailsService
         User user = userService.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        Set<GrantedAuthority> authorities = Set.of(SecurityUtils.convertToAuthority(user.getRole().name()));
+        //because i m using java 8 this set method caused error while deploying to the heroku
+//        Set<GrantedAuthority> authorities = Set.of(SecurityUtils.convertToAuthority(user.getRole().name()));
+
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        
+        authorities.add(SecurityUtils.convertToAuthority(user.getRole().name()));
 
         return UserPrincipal.builder()
                 .user(user).id(user.getId())
